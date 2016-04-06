@@ -1,7 +1,7 @@
 class MessageController < ApplicationController
   def show
     @chat = Chat.find(params[:chat])
-
+    @whiteboard = @chat.whiteboard
   end
 
   def create
@@ -10,7 +10,7 @@ class MessageController < ApplicationController
     @message.chat = Chat.find(params[:message][:chat_id])
     @chat = @message.chat
     if @message.save
-      sync_new @message, scope: @chat
+      sync_new @message, scope: @chat, partial: 'newmessages'
       respond_to do |format|
         format.js
       end

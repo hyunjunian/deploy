@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-sm-6">
-    <div style="text-align:center">채팅창</div>
+    <div style="text-align:center"></div>
     <div style="overflow:auto; width:auto; height:400px;" id="chatbox">
       <% @chat.messages.each do |message| %>
         <div class="row">
@@ -20,10 +20,10 @@
         </div>
       <% end %>
 
-      <%= sync_new partial: 'newmessages', resource: Message.new, scope: @chat %>
+      <%= sync_new partial: 'newmessages', resource: Message.new, scope: @chat%>
 
     </div>
-    <%= form_for(:message, :url => {:controller => 'message', :action => 'create'}, :remote => true) do |f| %>
+    <%= form_for(:message, :url => {:controller => 'message', :action => 'create'}, :remote => true, :html => {:id => "messageform"}) do |f| %>
       <div class="form-group has-success has-feedback">
         <div class="input-group">
           <input type="text" name="message[content]" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status" autofocus required>
@@ -31,14 +31,26 @@
         </div>
       </div>
       <%= f.hidden_field :chat_id, :value => @chat.id %>
-      <input name="commit" type="submit" value="말하기" style="visibility: hidden;"/>
+      <button style="visibility: hidden;" name="commit" value="말하기" id="messagesend">
+      <!--<input name="commit" type="submit" value="말하기" id="messagesend" style="visibility: hidden;"/>-->
+
     <%end%>
 
+    <script>
+      $(document).ready(function(){
+        $("#messagesend").click(function(){
+            $("#messageform").submit();
+            $("#inputGroupSuccess1").val('');
+
+        });
+      });
+    </script>
   </div>
   <div class="col-sm-6">
     <div style="text-align:center">
       화이트 보드
-      <textarea class="form-control" rows="18">입력하세요!</textarea>
+      <%= sync partial: "whiteboardedit", resource: @whiteboard, scope: @chat %>
+
       <nav>
         <ul class="pagination pagination-sm">
           <li>
@@ -46,9 +58,14 @@
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
+          <li><button id="whiteboardsend">EDIT</button></li>
+          <script>
+            $(document).ready(function(){
+              $("#whiteboardsend").click(function(){
+                $("#whiteboardform").submit();
+              });
+            });
+          </script>
           <li>
             <a href="#" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>

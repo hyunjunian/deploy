@@ -7,6 +7,9 @@ class ChatController < ApplicationController
     @chat.users << current_user
     @chat.users << User.where(:id => params[:user_ids])
     if @chat.save
+      @chat.whiteboard = Whiteboard.create(:edit => false, :content => "")
+      @chat.whiteboard.user = current_user
+      @chat.save
       redirect_to action: 'show', team: params[:team]
     end
   end
