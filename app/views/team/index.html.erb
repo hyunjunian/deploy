@@ -1,0 +1,22 @@
+<h3>팀방 들어가기</h3>
+<% @team.each do |team| %>
+  <li>
+    <form action ="/chat/show" method="get">
+      <input type="hidden" name="team" value=<%=team.id%>>
+      <input type="submit" value="<%=team.teamname%>">
+    </form>
+  </li>
+<% end %>
+
+<h3> Create Team </h3>
+
+<form action="/team/create" method="post">
+  <input type="text" name="teamname" placeholder="teamname">
+  <% @user.each do |p| %>
+    <% if p != current_user %>
+      <%= p.email %> = <%= check_box_tag('user_ids[]', p.id) %><br />
+    <% end %>
+  <% end %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <input type="submit">
+</form>

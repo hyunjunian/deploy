@@ -1,0 +1,43 @@
+<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+
+<h3>List of Chats</h3>
+<% if @chat %>
+  <% @chat.each do |chat| %>
+    <li>
+      <form action ="/message/show" method="get">
+        <input type="hidden" name="chat" value=<%=chat.id%>>
+        <input type="submit" value="<%=chat.title%>">
+      </form>
+    </li>
+  <% end %>
+<% end %>
+<form action="/chat/create" method="post">
+  <input type="text" name="title">
+  <input type="hidden" name="team" value=<%=@team.id%>>
+  <br />
+  <% @team.users.each do |p| %>
+    <% if p != current_user %>
+      <%= p.email %> = <%= check_box_tag('user_ids[]', p.id) %><br />
+    <% end %>
+  <% end %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <input type="submit" value="Send">
+</form>
+
+
+<p> Give Tasks </p>
+<form action="/task/create" method="post">
+  <p>taskname</p><input type="text" name="taskname">
+  <% @team.users.each do |p| %>
+    <% if p != current_user %>
+      <%= p.email %> = <%= check_box_tag('user_ids[]', p.id) %><br />
+    <% end %>
+  <% end %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <p>duedate</p><input type="text" name="duedate">
+  <input type="hidden" name="team" value=<%=@team.id%>>
+  <input type="submit" value="send">
+</form>
+
+<%= link_to "SHOW TASKS", action: 'show', controller: 'task', team: @team.id%>

@@ -1,0 +1,68 @@
+<head>
+	<h1> task viewer </h1>
+	<h2> <%=current_user.first_name%><%=current_user.last_name%> <%=current_user.email%> </h2>
+	<a href="/task/entire"> entire </a>
+</head>
+<h4>너가 시킨 일</h4>
+<% @tasksend.each do |tasksend| %>
+  <li> name = <%=tasksend.taskname%> due = <%=tasksend.duedate%> 완성도 = <%=tasksend.wansungdo%>
+    <% tasksend.users.each do |user| %>
+      <p>하는사람 = <%=user.email%></p>
+    <% end %>
+  </li>
+<% end %>
+
+<h4>너가 할 일</h4>
+<% @taskdo.each do |taskdo| %>
+  <li>
+    <p>name = <%=taskdo.taskname%></p>
+    <p>
+      시킨놈 =
+      <%sender = User.find(taskdo.sender)%>
+      <%=sender.email%>
+    </p>
+    <p>due = <%=taskdo.duedate%></p>
+    <form action="/task/wansungdo_update" method="post">
+    	<input type="hidden" name="task_id" value="<%=taskdo.id%>">
+    	<input type="hidden" name="team_id" value="<%=taskdo.team_id%>">
+    	<textarea name="wansungdo"> <%= taskdo.wansungdo %> </textarea>
+    	<%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+    	<input type="submit" value="수정">
+    </form>
+  </li>
+<% end %>
+
+
+<body data-no-turbolink="true" >
+	<% @tasklist.each do |t| %>
+		<li> <%=t.taskname%> <%=t.duedate%> <%=t.wansungdo%></li>
+	<% end %>
+	<br>
+	<br>
+	<li> <%= link_to('Logout', destroy_user_session_path, :method => :delete) %> </li>
+	<!--<script src="/assets/tasklist_index.js"></script>-->
+	<script>
+
+
+		var labelString = new Array();
+		var dataString = new Array();
+		var barChartData = first(labelString, dataString);
+
+		<% @tasklistdesc.each do |t| %>
+				var displayday = <%=(t.duedate - Date.today).to_i %>
+				if(displayday >= 0){
+				barChartData.labels.push("<%=t.taskname%>");
+					dataString.push(displayday);
+				}
+		<% end %>
+
+		onld(barChartData);
+
+
+	</script>
+
+
+	<canvas id="canvas" width="auto" height="auto" style="max-width: 1200px; max-height: 500px;" ></canvas>
+
+</body>

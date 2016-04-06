@@ -1,0 +1,42 @@
+<head>
+	<h1> Entire task viewer </h1>
+	<h2> <%=current_user.first_name%><%=current_user.last_name%> <%=current_user.email%> </h2>
+	<%= link_to("Individual", {:action => "index"}) %>
+</head>
+
+<body data-no-turbolink="true">
+
+	<% @managelist.each_with_index do |t| %>
+	    <% a = User.find(t.user_id) %>
+		<li> <%=a.first_name%><%=a.last_name%> <%=t.taskname%> <%=t.duedate%> </li>
+	<% end %>
+	<br>
+	<form action="/task/enroll">
+		<textarea name="irum" placeholder="taskname"></textarea>
+		<textarea name="nalzza" placeholder="duedate"></textarea><br>
+		<input type="submit">
+	</form>
+	<br>
+	<li> <%= link_to('Logout', destroy_user_session_path, :method => :delete) %> </li>
+	<script src="/assets/Chart.js"></script>
+	<!--<script src="/assets/tasklist_index.js"></script>-->
+	<script>
+
+	    var labelString = new Array();
+		var dataString = new Array();
+		var barChartData = first(labelString, dataString);
+
+		<% @managelistdesc.each_with_index do |t| %>
+    		var displayday = <%=(t.duedate - Date.today).to_i %>
+    		if(displayday >= 0){
+				barChartData.labels.push("<%=t.taskname%>");
+	    		dataString.push(displayday);
+    		}
+		<% end %>
+
+	  onld(barChartData);
+	</script>
+
+	<canvas id="canvas" width="auto" height="auto"></canvas>
+
+</body>
