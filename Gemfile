@@ -51,8 +51,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'carrierwave'
 gem 'bootstrap-sass', '~>3.3.6'
 
-gem 'capistrano', '~> 3.4.0'
-gem 'capistrano-bundler', '~> 1.1.4'
-gem 'capistrano-rails', '~> 1.1.6'
+group :development do
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-bundler', '~> 1.1.4'
+  gem 'capistrano-rails', '~> 1.1.6'
 
-gem 'capistrano-rbenv', '~> 2.0.4'
+  gem 'capistrano-rbenv', '~> 2.0.4'
+end
