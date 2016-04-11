@@ -31,20 +31,9 @@
         </div>
       </div>
       <%= f.hidden_field :chat_id, :value => @chat.id %>
-      <button style="visibility: hidden;" name="commit" value="말하기" id="messagesend">
       <!--<input name="commit" type="submit" value="말하기" id="messagesend" style="visibility: hidden;"/>-->
 
     <%end%>
-
-    <script>
-      $(document).ready(function(){
-        $("#messagesend").click(function(){
-            $("#messageform").submit();
-            $("#inputGroupSuccess1").val('');
-
-        });
-      });
-    </script>
   </div>
   <div class="col-sm-6">
     <div style="text-align:center">

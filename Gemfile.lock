@@ -49,6 +49,19 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.2)
     byebug (8.2.2)
+    capistrano (3.4.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
+    capistrano-bundler (1.1.4)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-rails (1.1.6)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rbenv (2.0.4)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
     carrierwave (0.11.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -119,6 +132,9 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.1.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogiri (1.6.7.2-x86-mingw32)
@@ -175,6 +191,9 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
     sqlite3 (1.3.11-x86-mingw32)
+    sshkit (1.9.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     sync (0.4.0)
       em-http-request
     thin (1.6.4)
@@ -210,6 +229,10 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   byebug
+  capistrano (~> 3.4.0)
+  capistrano-bundler (~> 1.1.4)
+  capistrano-rails (~> 1.1.6)
+  capistrano-rbenv (~> 2.0.4)
   carrierwave
   chart-js-rails
   coffee-rails (~> 4.1.0)
