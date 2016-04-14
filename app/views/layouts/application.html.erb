@@ -16,18 +16,52 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.1.js"></script>
+  <meta name="google-signin-client_id" content="462449088434-dqsv26kcove38hjrsbjrhe1gkm3f4d1f.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </head>
 
 <body>
+  <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+  <script>
+    function onSignIn(googleUser) {
+      // Useful data for your client-side scripts:
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+    };
+  </script>
+  <a href="#" onclick="signOut();">Sign out</a>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
+  
   <div id="naver_id_login"></div>
   <script type="text/javascript">
-  	var naver_id_login = new naver_id_login("M0R6aB8v_c9bWdQlNM9D", "http://127.0.0.1");
+  	var naver_id_login = new naver_id_login("M0R6aB8v_c9bWdQlNM9D", "https://grouper1-hyunjunian.c9users.io/");
   	naver_id_login.setButton("white", 2,40);
   	naver_id_login.setDomain(".service.com");
   	naver_id_login.setState("abcdefghijkmnopqrst");
   	naver_id_login.setPopup();
   	naver_id_login.init_naver_id_login();
+  	
+    naver_id_login.get_naver_userprofile(); 
+    email = naver_id_login.getProfileData('email');
+    name = naver_id_login.getProfileData('name');
+    age = naver_id_login.getProfileData('age');
   </script>
 
 	<div id="kakao-profile"></div>
@@ -86,8 +120,16 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <% if !current_page?(:controller => '/team', :action => 'index') %>
         <ul class="nav navbar-nav">
+          <% if current_page?(:controller => '/message', :action => 'show')%>
           <li class="active"><a href="#">화이트보드</a></li>
+          <% else %>
+          <li><a href="#">화이트보드</a></li>
+          <% end %>
+          <% if current_page?(:controller => '/resumes')%>
+          <li class="active"><a href="/resumes">클라우드</a></li>
+          <% else %>
           <li><a href="/resumes">클라우드</a></li>
+          <% end %>
         </ul>
         <form class="navbar-form navbar-left" role="search">
           <div class="form-group">
